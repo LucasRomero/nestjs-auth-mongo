@@ -1,10 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../../users/services/users.service';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+
+import { UsersService } from '../../users/services/users.service';
+import { User } from '../../users/entities/user.entity';
+import { PayloadToken } from '../models/token.model';
+import { loginDTO } from '../dtos/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async validateUser(email: string, password: string) {
     let isMatch = false;
@@ -19,5 +27,21 @@ export class AuthService {
       return rta;
     }
     return null;
+  }
+
+  // generateJWT1(user: loginDTO) {
+  //   const payload: PayloadToken = { username: user.email, sub: 1 };
+  //   return {
+  //     acces_token: this.jwtService.sign(payload),
+  //     user,
+  //   };
+  // }
+
+  generateJWT(user: User) {
+    const payload: PayloadToken = { username: user.email, sub: user.id };
+    return {
+      acces_token: this.jwtService.sign(payload),
+      user,
+    };
   }
 }
