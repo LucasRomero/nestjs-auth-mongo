@@ -6,15 +6,22 @@ import {
   Body,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 
 import { CustomersService } from '../services/customers.service';
 import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { Role } from '../../auth/models/enum/roles.model';
 
+import { RolesGuard } from '../../auth/guards/roles.guard';
+
+@UseGuards(RolesGuard)
 @Controller('customers')
 export class CustomerController {
   constructor(private customersService: CustomersService) {}
 
+  @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.customersService.findAll();
