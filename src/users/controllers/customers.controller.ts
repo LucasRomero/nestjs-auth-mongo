@@ -18,8 +18,10 @@ import { Role } from '../../auth/models/enum/roles.model';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { Public } from '../../auth/decorators/public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @UseGuards(RolesGuard, JwtAuthGuard)
+@ApiTags('customers')
 @Controller('customers')
 export class CustomerController {
   constructor(private customersService: CustomersService) {}

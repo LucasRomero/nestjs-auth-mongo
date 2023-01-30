@@ -38,7 +38,7 @@ export class AuthService {
   // }
 
   generateJWT(user: User) {
-    const payload: PayloadToken = { username: user.email, sub: user.id };
+    const payload: PayloadToken = { role: user.role, sub: user.id };
     return {
       acces_token: this.jwtService.sign(payload),
       user,
