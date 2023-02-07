@@ -4,10 +4,8 @@ import { loginDTO } from '../dtos/login.dto';
 
 import { AuthService } from './../services/auth.service';
 import { User } from '../../users/entities/user.entity';
-import { ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 
-@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
